@@ -14,6 +14,9 @@ public class MeshPlayground : Graphic
     private float lineThickness = .05f;
 
     [Header("Bar Settings")]
+    [SerializeField]
+    private Color baseColor;
+
 
     private Rect canvasRect;
     #endregion
@@ -121,7 +124,7 @@ public class MeshPlayground : Graphic
     {
         uint max = vals.Max();
         int n = vals.Count;
-        float step = canvasRect.width / (n-1);
+        float step = canvasRect.width / n;
 
         (List<UIVertex>, List<int>) acc = (new List<UIVertex>(), new List<int>());
         
