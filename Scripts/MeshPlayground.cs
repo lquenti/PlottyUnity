@@ -18,6 +18,10 @@ public class MeshPlayground : Graphic
     private Color32 baseColor = new Color32(0, 255, 0, 255);
     [SerializeField]
     private Color32 tipColor = new Color32(75, 192, 75, 255);
+    [SerializeField]
+    [Range(0, 1)]
+    // percentage of maximum
+    private float tipPercentage = .05f;
 
 
     private Rect canvasRect;
@@ -64,13 +68,13 @@ public class MeshPlayground : Graphic
         return toLocalSpace(Vector2.one * lineThickness);
     }
 
-    List<UIVertex> vecToUIVertex(List<Vector2> xs)
+    List<UIVertex> vecToUIVertex(List<Vector2> xs, Color32 color)
     {
         return xs.Select(x =>
         {
             UIVertex v = UIVertex.simpleVert;
             v.position = x;
-            v.color = baseColor;
+            v.color = color;
             return v;
         }).ToList();
     }
@@ -128,6 +132,7 @@ public class MeshPlayground : Graphic
         uint max = vals.Max();
         int n = vals.Count;
         float step = canvasRect.width / n;
+        float tipHeight = tipPercentage * max;
 
         (List<UIVertex>, List<int>) acc = (new List<UIVertex>(), new List<int>());
         
@@ -136,28 +141,44 @@ public class MeshPlayground : Graphic
             var x = vals[offset];
             // TODO used canvasrect inline
             float height = (float)x / max * canvasRect.height;
-            acc = joinVertexStreams(acc, drawBar(height, step, offset));
+            acc = joinVertexStreams(acc, drawBar(height, step, offset, tipHeight));
         }
         return acc;
     }
 
-    (List<UIVertex>, List<int>) drawBar(float height, float width, int offset)
+    (List<UIVertex>, List<int>) drawBar(float height, float width, int offset, float tipHeight)
     {
         float left_bound = offset * width;
         float right_bound = (offset + 1) * width;
-        List<Vector2> vals = new List<Vector2>
+
+        // TODO: Optimize double vectors
+        List<Vector2> bottom = new List<Vector2>
         {
             new Vector2 (left_bound, 0),
             new Vector2 (right_bound, 0),
+            new Vector2 (right_bound, height * (1-tipPercentage)),
+            new Vector2 (left_bound, height * (1-tipPercentage))
+        };
+        List<Vector2> tip = new List<Vector2>
+        {
+            new Vector2 (left_bound, height * (1-tipPercentage)),
+            new Vector2 (right_bound, height * (1 - tipPercentage)),
             new Vector2 (right_bound, height),
             new Vector2 (left_bound, height)
         };
-        List<int> tris = new List<int>
+        List<int> bottomTris = new List<int>
         {
             2, 1, 0,
             0, 3, 2
         };
-        return (vecToUIVertex(vals), tris);
+        // TODO double
+        List<int> tipTris = new List<int>
+        {
+            2, 1, 0,
+            0, 3, 2
+        };
+
+        return joinVertexStreams((vecToUIVertex(bottom, baseColor), bottomTris), (vecToUIVertex(tip, tipColor), tipTris));
         
     }
     #endregion
