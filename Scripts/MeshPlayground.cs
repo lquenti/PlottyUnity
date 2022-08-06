@@ -15,9 +15,9 @@ public class MeshPlayground : Graphic
 
     [Header("Bar Settings")]
     [SerializeField]
-    private Color baseColor = new Color(0, 255, 0);
+    private Color32 baseColor = new Color32(0, 255, 0, 255);
     [SerializeField]
-    private Color tipColor = new Color(75, 192, 75);
+    private Color32 tipColor = new Color32(75, 192, 75, 255);
 
 
     private Rect canvasRect;
@@ -70,6 +70,7 @@ public class MeshPlayground : Graphic
         {
             UIVertex v = UIVertex.simpleVert;
             v.position = x;
+            v.color = baseColor;
             return v;
         }).ToList();
     }
