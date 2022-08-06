@@ -15,7 +15,9 @@ public class MeshPlayground : Graphic
 
     [Header("Bar Settings")]
     [SerializeField]
-    private Color baseColor;
+    private Color baseColor = new Color(0, 255, 0);
+    [SerializeField]
+    private Color tipColor = new Color(75, 192, 75);
 
 
     private Rect canvasRect;
@@ -151,8 +153,8 @@ public class MeshPlayground : Graphic
         };
         List<int> tris = new List<int>
         {
-            0, 1, 2,
-            2, 3, 0
+            2, 1, 0,
+            0, 3, 2
         };
         return (vecToUIVertex(vals), tris);
         
