@@ -2,9 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO: Rename to Gauge Plot
 // TODO: Use namepsace
-public class RadialBar : MonoBehaviour
+public class RadialPlot : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField]
@@ -34,12 +33,12 @@ public class RadialBar : MonoBehaviour
 
     void Awake()
     {
-        parseGradient();
+        ParseGradient();
         curr = startVal;
-        updateGauge();
+        UpdateGauge();
     }
 
-    void parseGradient()
+    void ParseGradient()
     {
         if (gradient.colorKeys.Length != 3)
         {
@@ -57,7 +56,7 @@ public class RadialBar : MonoBehaviour
     {
         curr += delta;
         Clamp();
-        updateGauge();
+        UpdateGauge();
     }
 
     private void Clamp()
@@ -72,10 +71,10 @@ public class RadialBar : MonoBehaviour
     {
         curr = val;
         Clamp();
-        updateGauge();
+        UpdateGauge();
     }
 
-    private void updateGauge()
+    private void UpdateGauge()
     {
         float unitInterval = (float)curr / maxVal;
         inner.fillAmount = unitInterval;

@@ -28,7 +28,7 @@ namespace Lquenti
             {
                 curr.x = step * offset;
                 curr.y = (float)vals[offset] / max * canvasRect.height;
-                acc = UtilExtensions.joinVertexStreams(acc, DrawLine(last, curr));
+                acc = UtilExtensions.JoinVertexStreams(acc, DrawLine(last, curr));
                 last = curr;
             }
             return acc;
@@ -42,8 +42,8 @@ namespace Lquenti
 
             Vector2 delta = (to - from);
             Vector2 dir = delta.normalized;
-            Vector2 cw = UtilExtensions.orthogonalCW(dir);
-            Vector2 ccw = UtilExtensions.orthogonalCCW(dir);
+            Vector2 cw = UtilExtensions.OrthogonalCW(dir);
+            Vector2 ccw = UtilExtensions.OrthogonalCCW(dir);
 
 
             List<Vector2> line = new()
@@ -59,7 +59,7 @@ namespace Lquenti
                 0, 1, 2,
                 1, 2, 3
             };
-            return (UtilExtensions.vecToUIVertex(line, lineColor), indizes);
+            return (UtilExtensions.VecToUIVertex(line, lineColor), indizes);
         }
     }
 }

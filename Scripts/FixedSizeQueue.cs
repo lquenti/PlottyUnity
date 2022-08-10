@@ -8,6 +8,7 @@ namespace Lquenti
 {
     class FixedSizeQueue<T> : IEnumerable<T>
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0044:Add readonly modifier", Justification = "Readability")]
         private LinkedList<T> list = new();
         public int Capacity { get; private set; }
         public int Count { get { return list.Count; } }

@@ -7,7 +7,7 @@ namespace Lquenti
 {
     public class RNGPlot : MonoBehaviour
     {
-        private System.Random rnd = new System.Random();
+        private readonly System.Random rnd = new();
         [SerializeField]
         private GameObject lineObj;
         [SerializeField]
@@ -17,21 +17,21 @@ namespace Lquenti
 
         private LinePlot linePlot;
         private BarPlot barPlot;
-        private RadialBar radialBar;
+        private RadialPlot radialBar;
 
         private void Awake()
         {
             linePlot = lineObj.GetComponent<LinePlot>();
             barPlot = barObj.GetComponent<BarPlot>();
-            radialBar = radialObj.GetComponent<RadialBar>();
+            radialBar = radialObj.GetComponent<RadialPlot>();
         }
 
         private void Start()
         {
-            InvokeRepeating("f", .1f, .1f);
+            InvokeRepeating(nameof(F), .1f, .1f);
         }
 
-        void f()
+        void F()
         {
             float rng = 100f * (float)rnd.NextDouble();
             Debug.Log(rng);

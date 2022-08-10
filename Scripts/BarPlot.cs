@@ -30,7 +30,7 @@ namespace Lquenti
                 // TODO used canvasrect inline
                 float height = (float)x / max * canvasRect.height;
                 // TODO: Outsource drawBar into draw, use inheritance
-                acc = UtilExtensions.joinVertexStreams(acc, Draw(height, step, offset));
+                acc = UtilExtensions.JoinVertexStreams(acc, Draw(height, step, offset));
             }
             return acc;
         }
@@ -66,9 +66,9 @@ namespace Lquenti
             0, 3, 2
         };
 
-            return UtilExtensions.joinVertexStreams(
-                (UtilExtensions.vecToUIVertex(bottom, baseColor), bottomTris),
-                (UtilExtensions.vecToUIVertex(tip, tipColor), tipTris)
+            return UtilExtensions.JoinVertexStreams(
+                (UtilExtensions.VecToUIVertex(bottom, baseColor), bottomTris),
+                (UtilExtensions.VecToUIVertex(tip, tipColor), tipTris)
             );
 
         }
