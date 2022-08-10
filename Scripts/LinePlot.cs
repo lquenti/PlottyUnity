@@ -9,9 +9,11 @@ namespace Lquenti
 {
     public class LinePlot : AbstractPlot
     {
-        [Header("Bar Settings")]
+        [Header("Line Settings")]
         [SerializeField]
         private Color32 lineColor = new(0, 255, 0, 255);
+        [SerializeField]
+        private float thickness = 3f;
 
         protected override (List<UIVertex>, List<int>) DrawAll(List<float> vals)
         {
@@ -36,9 +38,6 @@ namespace Lquenti
 
         (List<UIVertex>, List<int>) DrawLine(Vector2 from, Vector2 to)
         {
-            // TODO
-            float thickness = 5f;
-
             Vector2 delta = (to - from);
             Vector2 dir = delta.normalized;
             Vector2 cw = UtilExtensions.OrthogonalCW(dir);
