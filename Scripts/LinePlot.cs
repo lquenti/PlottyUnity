@@ -7,43 +7,13 @@ using UnityEngine.UI;
 
 namespace Lquenti
 {
-    public class LinePlot : Graphic
+    public class LinePlot : AbstractPlot
     {
         [Header("Bar Settings")]
         [SerializeField]
         private Color32 lineColor = new(0, 255, 0, 255);
-        [SerializeField]
-        [Range(1, 100)]
-        private int ticks = 25;
 
-
-        private FixedSizeQueue<float> floats;
-        protected Rect canvasRect;
-
-        
-
-        protected override void Awake()
-        {
-            base.Awake();
-            floats = new FixedSizeQueue<float>(ticks);
-            canvasRect = GetComponent<RectTransform>().rect;
-        }
-
-        protected override void OnPopulateMesh(VertexHelper vh)
-        {
-            base.OnPopulateMesh(vh);
-            vh.Clear();
-            if (floats == null || floats.Count == 0)
-            {
-                // Not awaken yet
-                return;
-            }
-            // TODO: Don't always redraw from zero
-            var (verts, indices) = DrawAll(floats.ToList());
-            vh.AddUIVertexStream(verts, indices);
-        }
-
-        (List<UIVertex>, List<int>) DrawAll(List<float> vals)
+        protected override (List<UIVertex>, List<int>) DrawAll(List<float> vals)
         {
             float max = vals.Max();
             float step = canvasRect.width / ticks;
@@ -91,12 +61,5 @@ namespace Lquenti
             };
             return (UtilExtensions.vecToUIVertex(line, lineColor), indizes);
         }
-
-        public void Add(float x)
-        {
-            floats.Push(x);
-            SetVerticesDirty();
-        }
-        // TODO set
     }
 }

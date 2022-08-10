@@ -11,7 +11,8 @@ namespace Lquenti
     {
         [SerializeField]
         [Range(1, 100)]
-        private int ticks = 25;
+        protected int ticks = 25;
+
         private FixedSizeQueue<float> floats;
         protected Rect canvasRect;
 
@@ -36,26 +37,7 @@ namespace Lquenti
             vh.AddUIVertexStream(verts, indices);
         }
 
-        (List<UIVertex>, List<int>) DrawAll(List<float> vals)
-        {
-            float max = vals.Max();
-            int n = vals.Count;
-            float step = canvasRect.width / n;
-
-            (List<UIVertex>, List<int>) acc = (new List<UIVertex>(), new List<int>());
-
-            for (int offset = 0; offset < vals.Count; offset++)
-            {
-                var x = vals[offset];
-                // TODO used canvasrect inline
-                float height = (float)x / max * canvasRect.height;
-                // TODO: Outsource drawBar into draw, use inheritance
-                acc = UtilExtensions.joinVertexStreams(acc, Draw(height, step, offset));
-            }
-            return acc;
-        }
-
-        protected abstract (List<UIVertex>, List<int>) Draw(float height, float step, int offset);
+        protected abstract (List<UIVertex>, List<int>) DrawAll(List<float> vals);
 
         public void Add(float x)
         {
