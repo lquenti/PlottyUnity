@@ -19,8 +19,7 @@ namespace Lquenti
         protected override (List<UIVertex>, List<int>) DrawAll(List<float> vals)
         {
             float max = vals.Max();
-            int n = vals.Count;
-            float step = canvasRect.width / n;
+            float step = canvasRect.width / ticks;
 
             (List<UIVertex>, List<int>) acc = (new List<UIVertex>(), new List<int>());
 
