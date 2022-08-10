@@ -1,4 +1,4 @@
-# A free and open source 2D plotting library for Unity (in 3D)
+# Plotty: 2D plots in Unity3D!
 
 ![Example how it looks](./images/example.gif)
 
