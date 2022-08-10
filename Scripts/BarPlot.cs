@@ -36,18 +36,20 @@ namespace Lquenti
             float left_bound = offset * width;
             float right_bound = (offset + 1) * width;
 
+            float tipHeight = tipPercentage * canvasRect.height;
+
             // TODO: Optimize double vectors
             List<Vector2> bottom = new()
             {
             new Vector2 (left_bound, 0),
             new Vector2 (right_bound, 0),
-            new Vector2 (right_bound, height * (1-tipPercentage)),
-            new Vector2 (left_bound, height * (1-tipPercentage))
+            new Vector2 (right_bound, height - tipHeight),
+            new Vector2 (left_bound, height - tipHeight)
             };
             List<Vector2> tip = new()
             {
-            new Vector2 (left_bound, height * (1-tipPercentage)),
-            new Vector2 (right_bound, height * (1 - tipPercentage)),
+            new Vector2 (left_bound, height - tipHeight),
+            new Vector2 (right_bound, height - tipHeight),
             new Vector2 (right_bound, height),
             new Vector2 (left_bound, height)
             };
