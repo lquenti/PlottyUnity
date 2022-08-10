@@ -4,7 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Expects pivot in lower left
-// TODO consistent variable naming
+
+// TODO: Consistent Naming
+// TODO: Complete Margin
+// TODO: margin between bars
+// TODO: Streaming Data
+// TODO: Remove copies
+// TODO: Join draw logic
+// TODO: Use floats as vals
+
 public class MeshPlayground : Graphic
 {
     #region Properties
@@ -37,15 +45,15 @@ public class MeshPlayground : Graphic
     {
         base.OnPopulateMesh(vh);
         vh.Clear();
-        /* Line Example
         Vector2 from = toLocalSpace(Vector2.one * .2f);
         Vector2 to = toLocalSpace(Vector2.one * .7f);
         var (verts, indizes) = drawLine(from, to);
         vh.AddUIVertexStream(verts, indizes);
-        */
+        /* Bar Example
         List<uint> ints = new List<uint> { 1,2,3,4,5,6,7,8,9,10 };
         var (verts, indizes) = drawBars(ints);
         vh.AddUIVertexStream(verts, indizes);
+        */
     }
 
     #region Helper
@@ -141,6 +149,7 @@ public class MeshPlayground : Graphic
             var x = vals[offset];
             // TODO used canvasrect inline
             float height = (float)x / max * canvasRect.height;
+            // TODO: Outsource drawBar into draw, use inheritance
             acc = joinVertexStreams(acc, drawBar(height, step, offset, tipHeight));
         }
         return acc;
@@ -179,7 +188,7 @@ public class MeshPlayground : Graphic
         };
 
         return joinVertexStreams((vecToUIVertex(bottom, baseColor), bottomTris), (vecToUIVertex(tip, tipColor), tipTris));
-        
+
     }
     #endregion
 }

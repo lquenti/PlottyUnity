@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: Rename to Gauge Plot
+// TODO: Use namepsace
 public class RadialBar : MonoBehaviour
 {
     [Header("Config")]
