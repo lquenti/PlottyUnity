@@ -14,7 +14,7 @@ namespace Lquenti
         public int Count { get { return list.Count; } }
 
 
-        public FixedSizeQueue(int capacity) 
+        public FixedSizeQueue(int capacity)
         {
             this.Capacity = capacity;
         }
