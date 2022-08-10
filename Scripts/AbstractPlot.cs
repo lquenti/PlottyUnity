@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO: Do I need to inherit?
 namespace Lquenti
 {
     public abstract class AbstractPlot : Graphic
@@ -32,7 +30,6 @@ namespace Lquenti
                 // Not awaken yet
                 return;
             }
-            // TODO: Don't always redraw from zero
             var (verts, indices) = DrawAll(floats.ToList());
             vh.AddUIVertexStream(verts, indices);
         }
@@ -44,6 +41,10 @@ namespace Lquenti
             floats.Push(x);
             SetVerticesDirty();
         }
-        // TODO set
+        public void Set(IEnumerable<float> xs)
+        {
+            floats = new FixedSizeQueue<float>(xs, ticks);
+            SetVerticesDirty();
+        }
     }
 }

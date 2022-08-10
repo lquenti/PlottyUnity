@@ -34,7 +34,6 @@ namespace Lquenti
             return acc;
         }
 
-        // TODO: Thiccness
         (List<UIVertex>, List<int>) DrawLine(Vector2 from, Vector2 to)
         {
             // TODO

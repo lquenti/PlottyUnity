@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO: Use namepsace
 namespace Lquenti
 {
     public class RadialPlot : MonoBehaviour

@@ -27,9 +27,7 @@ namespace Lquenti
             for (int offset = 0; offset < vals.Count; offset++)
             {
                 var x = vals[offset];
-                // TODO used canvasrect inline
                 float height = (float)x / max * canvasRect.height;
-                // TODO: Outsource drawBar into draw, use inheritance
                 acc = UtilExtensions.JoinVertexStreams(acc, Draw(height, step, offset));
             }
             return acc;
@@ -46,31 +44,29 @@ namespace Lquenti
             new Vector2 (right_bound, 0),
             new Vector2 (right_bound, height * (1-tipPercentage)),
             new Vector2 (left_bound, height * (1-tipPercentage))
-        };
+            };
             List<Vector2> tip = new()
             {
             new Vector2 (left_bound, height * (1-tipPercentage)),
             new Vector2 (right_bound, height * (1 - tipPercentage)),
             new Vector2 (right_bound, height),
             new Vector2 (left_bound, height)
-        };
+            };
             List<int> bottomTris = new()
             {
             2, 1, 0,
             0, 3, 2
-        };
-            // TODO double
+            };
             List<int> tipTris = new()
             {
             2, 1, 0,
             0, 3, 2
-        };
+            };
 
             return UtilExtensions.JoinVertexStreams(
                 (UtilExtensions.VecToUIVertex(bottom, baseColor), bottomTris),
                 (UtilExtensions.VecToUIVertex(tip, tipColor), tipTris)
             );
-
         }
     }
 }
