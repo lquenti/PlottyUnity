@@ -11,13 +11,21 @@ namespace Lquenti
     {
         [Header("Bar Settings")]
         [SerializeField]
-        private Color32 color = new Color32(0, 255, 0, 255);
+        private Color32 lineColor = new(0, 255, 0, 255);
+        [SerializeField]
+        [Range(1, 100)]
+        private int ticks = 25;
 
+
+        private FixedSizeQueue<float> floats;
         protected Rect canvasRect;
+
+        
 
         protected override void Awake()
         {
             base.Awake();
+            floats = new FixedSizeQueue<float>(ticks);
             canvasRect = GetComponent<RectTransform>().rect;
         }
 
@@ -25,28 +33,27 @@ namespace Lquenti
         {
             base.OnPopulateMesh(vh);
             vh.Clear();
-            List<uint> ints = new List<uint> { 1,9,2,8,3,7,4,5,5,6 };
-            var (verts, indices) = DrawAll(ints);
+            if (floats == null || floats.Count == 0)
+            {
+                // Not awaken yet
+                return;
+            }
+            // TODO: Don't always redraw from zero
+            var (verts, indices) = DrawAll(floats.ToList());
             vh.AddUIVertexStream(verts, indices);
         }
 
-        (List<UIVertex>, List<int>) DrawAll(List<uint> vals)
+        (List<UIVertex>, List<int>) DrawAll(List<float> vals)
         {
-            uint max = vals.Max();
-            int n = vals.Count;
-            float step = canvasRect.width / n;
+            float max = vals.Max();
+            float step = canvasRect.width / ticks;
 
             (List<UIVertex>, List<int>) acc = (new List<UIVertex>(), new List<int>());
 
-            if (n == 0)
-            {
-                throw new ArgumentException("lol");
-            }
-
             // we roll over the points
             // thus, we need to initialize the last point manually
-            Vector2 last = new Vector2(0f, (float)vals[0] / max * canvasRect.height);
-            Vector2 curr = new Vector2(0f, 0f);
+            Vector2 last = new(0f, (float)vals[0] / max * canvasRect.height);
+            Vector2 curr = new(0f, 0f);
             for (int offset = 1; offset < vals.Count; offset++)
             {
                 curr.x = step * offset;
@@ -64,25 +71,32 @@ namespace Lquenti
             float thickness = 5f;
 
             Vector2 delta = (to - from);
-            float len = delta.magnitude;
             Vector2 dir = delta.normalized;
             Vector2 cw = UtilExtensions.orthogonalCW(dir);
             Vector2 ccw = UtilExtensions.orthogonalCCW(dir);
-            Vector2 midPoint = from + delta * .5f;
 
 
-            List<Vector2> line = new List<Vector2>();
-            line.Add(from + cw * thickness / 2);
-            line.Add(from + ccw * thickness / 2);
+            List<Vector2> line = new()
+            {
+                from + cw * thickness / 2,
+                from + ccw * thickness / 2
+            };
             line.Add(line[0] + delta);
             line.Add(line[1] + delta);
 
-            List<int> indizes = new List<int>()
+            List<int> indizes = new()
             {
                 0, 1, 2,
                 1, 2, 3
             };
-            return (UtilExtensions.vecToUIVertex(line, color), indizes);
+            return (UtilExtensions.vecToUIVertex(line, lineColor), indizes);
         }
+
+        public void Add(float x)
+        {
+            floats.Push(x);
+            SetVerticesDirty();
+        }
+        // TODO set
     }
 }
